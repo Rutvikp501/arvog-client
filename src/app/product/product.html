@@ -1,0 +1,79 @@
+<div class="product-container">
+  <div class="header-box">
+    <h2>Product Management</h2>
+
+    <div class="action-bar">
+      <input type="text" placeholder="Search product..."
+             [(ngModel)]="searchText"
+             (input)="search()">
+
+      <button (click)="openAddPopup()">Add Product</button>
+    </div>
+    <div class="download-buttons">
+      <button (click)="openBulkUploadPopup()">Bulk Upload</button>
+
+  <button (click)="downloadReport('csv')" class="btn btn-primary">Download CSV</button>
+  <button (click)="downloadReport('xlsx')" class="btn btn-success">Download Excel</button>
+</div>
+
+  </div>
+
+  <table>
+    <tr>
+      <th>#</th>
+       <th>Image</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price (₹)</th>
+      <th>Actions</th>
+    </tr>
+
+    <tr *ngFor="let p of filteredProducts; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td><img [src]="p.imageUrl" width="60" height="60" /></td>
+      <td>{{ p.name }}</td>
+      <td>{{ p.Category?.name }}</td>
+      <td>{{ p.price }}</td>
+      <td class="row-action">
+        <button (click)="openEditPopup(p)">Edit</button>
+        <button class="danger" (click)="deleteProduct(p.id)">Delete</button>
+      </td>
+    </tr>
+  </table>
+
+  <div *ngIf="filteredProducts.length === 0" class="no-data">
+    No products found.
+  </div>
+</div>
+
+<!-- Popup -->
+<div class="popup-overlay" *ngIf="showPopup">
+  <div class="popup">
+    <h3>{{ editMode ? 'Edit Product' : 'Add Product' }}</h3>
+
+    <input type="text" [(ngModel)]="productName" placeholder="Enter product name">
+    <input type="number" [(ngModel)]="productPrice" placeholder="Enter price" min="1">
+
+    <input type="number" [(ngModel)]="categoryId" placeholder="Enter Category ID">
+ <input type="file" (change)="onFileSelected($event)">
+    <img *ngIf="previewUrl" [src]="previewUrl" width="100" height="100" style="margin-top:10px;">
+
+    <div class="popup-actions">
+      <button (click)="saveProduct()">{{ editMode ? 'Update' : 'Save' }}</button>
+      <button class="cancel" (click)="closePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" *ngIf="showBulkUpload">
+  <div class="popup">
+    <h3>Bulk Upload Products (CSV / Excel)</h3>
+
+    <input type="file" accept=".csv, .xlsx" (change)="onBulkFileSelect($event)" />
+
+    <div class="popup-actions">
+      <button (click)="uploadBulk()">Upload</button>
+      <button class="cancel" (click)="closeBulkUpload()">Cancel</button>
+    </div>
+  </div>
+</div>

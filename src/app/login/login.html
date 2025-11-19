@@ -1,0 +1,38 @@
+<div class="page-wrapper">
+    <div class="login-card">
+        <h2>Login</h2>
+        <div class="form-group">
+            <label for="email">Username</label>
+            <input id="email" type="text" placeholder="Enter username" [(ngModel)]="email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="Enter password" [(ngModel)]="password">
+        </div>
+        <button class="btn" (click)="login()">
+            Login
+        </button>
+        <p *ngIf="errorMessage" class="error">
+            {{ errorMessage }}
+        </p>
+    </div>
+</div>
+
+<!-- <div class="login-container">
+  <h2>Login</h2>
+
+  <form (submit)="login(); $event.preventDefault()">
+
+    <input type="email" placeholder="Email"
+           [(ngModel)]="email" name="email" required />
+
+    <input type="password" placeholder="Password"
+           [(ngModel)]="password" name="password" required />
+
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Logging in...' : 'Login' }}
+    </button>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+</div> -->

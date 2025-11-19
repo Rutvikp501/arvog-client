@@ -1,0 +1,12 @@
+<div class="navbar">
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/dashboard/category">Category</a>
+    <a routerLink="/dashboard/product">Product</a>
+    <button (click)="logout()">Logout</button>
+</div>
+<div class="content">
+    @if( !router.url.includes('category') && !router.url.includes('product')){
+    <h2>Welcome to My Dashboard</h2>
+    <p>Select a page from the navigation bar above.</p>}
+    <router-outlet></router-outlet>
+</div>

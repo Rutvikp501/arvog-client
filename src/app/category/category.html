@@ -1,0 +1,61 @@
+<div class="category-container">
+  <div class="header-box">
+    <h2>Category Management</h2>
+
+    <div class="action-bar">
+      <input type="text"
+        placeholder="Search category..."
+        [(ngModel)]="searchText"
+        (input)="search()">
+
+      <button (click)="openAddPopup()">Add Category</button>
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Category</th>
+      <th>Created</th>
+      <th>Actions</th>
+    </tr>
+
+    <tr *ngFor="let c of filteredCategories; let i = index">
+      <td>{{ (page - 1) * 10 + (i + 1) }}</td>
+      <td>{{ c.name }}</td>
+      <td>{{ c.createdAt | date:'short' }}</td>
+      <td class="row-action">
+        <button (click)="openEditPopup(c)">Edit</button>
+        <button class="danger" (click)="deleteCategory(c.id)">Delete</button>
+      </td>
+    </tr>
+  </table>
+
+  <div *ngIf="filteredCategories.length === 0" class="no-data">
+    No categories found.
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-box">
+    <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
+    <span>Page {{ page }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
+  </div>
+</div>
+
+
+<!-- Popup Overlay -->
+<div class="popup-overlay" *ngIf="showPopup">
+    <div class="popup">
+        <h3>{{ editMode ? 'Edit Category' : 'Add Category' }}</h3>
+        <div class="p-2">
+            <input type="text" [(ngModel)]="categoryName" placeholder="Enter category name">
+        </div>
+        <div class="popup-actions">
+            <button (click)="saveCategory()">
+                {{ editMode ? 'Update' : 'Save' }}
+            </button>
+            <button class="cancel" (click)="closePopup()">Cancel</button>
+        </div>
+    </div>
+</div>
