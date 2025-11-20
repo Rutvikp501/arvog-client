@@ -10,20 +10,49 @@
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
-       "build": {
-  "builder": "@angular/build:application",
-  "options": {
-    "outputPath": "dist/frontend/browser",
-    "index": "src/index.html",
-    "main": "src/main.ts",
-    "polyfills": ["zone.js"],
-    "tsConfig": "tsconfig.app.json",
-    "assets": [
-      { "glob": "**/*", "input": "public", "output": "/" }
-    ],
-    "styles": ["src/styles.css"]
-  }
-},
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/frontend/browser",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
