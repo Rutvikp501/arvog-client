@@ -29,7 +29,7 @@ export class ProductComponent implements OnInit {
 
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
-
+showBulkUpload = false;
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
@@ -129,35 +129,43 @@ downloadReport(type: 'csv' | 'xlsx') {
   });
 }
 
-showBulkUpload = false;
-bulkFile: File | null = null;
-
-openBulkUploadPopup() {
-  this.showBulkUpload = true;
-}
-
-closeBulkUpload() {
-  this.showBulkUpload = false;
-  this.bulkFile = null;
-}
+selectedBulkFile: File | null = null;
 
 onBulkFileSelect(event: any) {
-  this.bulkFile = event.target.files[0] || null;
+  const file = event.target.files[0];
+  if (!file) return;
+
+  this.selectedBulkFile = file;
+  console.log("Selected File:", file);
 }
 
 uploadBulk() {
-  if (!this.bulkFile) return alert("Please select a file");
+  if (!this.selectedBulkFile) {
+    alert("Please select a file first");
+    return;
+  }
 
-  this.productService.bulkUpload(this.bulkFile).subscribe({
-    next: () => {
-      alert("Bulk upload successful!");
+  const formData = new FormData();
+  formData.append("file", this.selectedBulkFile);
+
+  this.productService.bulkUpload(formData).subscribe({
+    next: (res) => {
+      console.log(res);
+      alert("Bulk upload completed!");
       this.closeBulkUpload();
-      this.loadProducts();
     },
-    error: () => alert("Bulk upload failed")
+    error: (err) => {
+      console.error(err);
+      alert("Upload failed");
+    }
   });
 }
-
+openBulkUpload() {
+  this.showBulkUpload = true;
+}
+ closeBulkUpload() {
+    this.showBulkUpload = false;
+  }
   nextPage() {}
   prevPage() {}
 }

@@ -1,6 +1,15 @@
 {
-  "name": "frontend",
-  "version": "0.0.0",
+  "name": "arvog-client",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Rutvikp501/arvog-client#readme",
+  "bugs": {
+    "url": "https://github.com/Rutvikp501/arvog-client/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rutvikp501/arvog-client.git"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

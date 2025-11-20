@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap, catchError, throwError } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +11,7 @@ export class AuthService {
   private http = inject(HttpClient);   // inject HttpClient without constructor
   private router = inject(Router);
 
-  private apiUrl = 'http://localhost:5000/api/user/login'; // backend login endpoint
+  private apiUrl = `${environment.APIURL}/api/user/login`; // backend login endpoint
 
   // Login user and save token + user in localStorage
   login(email: string, password: string): Observable<any> {
